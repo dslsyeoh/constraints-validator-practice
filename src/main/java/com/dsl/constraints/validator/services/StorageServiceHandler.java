@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.groups.Default;
 import java.util.Set;
 
 @Service
@@ -24,7 +25,7 @@ public class StorageServiceHandler implements StorageService
     @Override
     public StorageEntity create(Storage storage)
     {
-        Set<ConstraintViolation<Storage>> errors = validator.validate(storage, CreateValidation.class);
+        Set<ConstraintViolation<Storage>> errors = validator.validate(storage, Default.class, CreateValidation.class);
         if(!errors.isEmpty()) throw new RuntimeException(errors.toString());
         StorageEntity storageEntity = new StorageEntity();
         storageEntity.setName(storage.getName());
@@ -38,7 +39,7 @@ public class StorageServiceHandler implements StorageService
     @Override
     public StorageEntity update(Storage storage)
     {
-        Set<ConstraintViolation<Storage>> errors = validator.validate(storage, UpdateValidation.class);
+        Set<ConstraintViolation<Storage>> errors = validator.validate(storage, Default.class, UpdateValidation.class);
         if(!errors.isEmpty()) throw new RuntimeException(errors.toString());
 
         StorageEntity storageEntity = storageRepository.findById(storage.getId()).get();
