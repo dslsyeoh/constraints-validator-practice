@@ -7,16 +7,17 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
 
 @Data
-@UniqueName(groups = CreateValidation.class)
+@UniqueName(groups = {Default.class, CreateValidation.class})
 public class Storage
 {
     private Long id;
 
-    @NotBlank
+    @NotBlank(groups = Default.class)
     private String name;
 
-    @NotNull(groups = UpdateValidation.class)
+    @NotNull(groups = {Default.class, UpdateValidation.class})
     private Integer quantity;
 }
